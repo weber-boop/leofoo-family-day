@@ -636,20 +636,26 @@
     flex-shrink: 0;
     width: 32px;
     height: 32px;
-    border-radius: 50%;
-    background: var(--bg-warm);
-    color: var(--orange);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
     transition: transform 0.25s ease;
-    font-weight: 700;
+  }
+  .entry-arrow svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--ink-muted);
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.2s;
   }
   .entry.open .entry-arrow {
     transform: rotate(180deg);
-    background: var(--orange);
-    color: #fff;
+  }
+  .entry.open .entry-arrow svg {
+    stroke: var(--orange);
   }
   .entry-body {
     display: none;
@@ -720,7 +726,132 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 12px;
+  }
+  .entry-delete-btn {
+    background: transparent;
+    border: 1.5px solid #e8c4b8;
+    color: #b8543d;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .entry-delete-btn:active {
+    background: #fdeae3;
+    border-color: #b8543d;
+    transform: scale(0.97);
+  }
+  .entry-delete-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+  }
+  /* ===== 確認刪除視窗 ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(42,32,24,0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 20px;
+    animation: fadeIn 0.2s ease-out;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 360px;
+    width: 100%;
+    padding: 28px 24px 20px;
+    box-shadow: 0 20px 60px rgba(42,32,24,0.3);
+    animation: modalPop 0.25s ease-out;
+  }
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.92) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 16px;
+    background: #fdeae3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-icon svg {
+    width: 26px;
+    height: 26px;
+    stroke: #b8543d;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .modal-text {
+    font-size: 15px;
+    color: var(--ink-soft);
+    text-align: center;
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+  .modal-text strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .modal-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .modal-btn {
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1.5px solid transparent;
+  }
+  .modal-btn-cancel {
+    background: #f5f0e6;
+    color: var(--ink-soft);
+    border-color: #f5f0e6;
+  }
+  .modal-btn-cancel:active {
+    background: #ebe3d2;
+    transform: scale(0.98);
+  }
+  .modal-btn-confirm {
+    background: #c24f15;
+    color: #fff;
+    border-color: #c24f15;
+  }
+  .modal-btn-confirm:active {
+    background: #a8430f;
+    transform: scale(0.98);
   }
   .empty-state {
     text-align: center;
@@ -788,7 +919,8 @@
     .entry-head { padding: 16px; min-height: 56px; }
     .entry-body { padding: 16px; }
     .entry-name { font-size: 17px; }
-    .entry-arrow { width: 28px; height: 28px; font-size: 16px; }
+    .entry-arrow { width: 28px; height: 28px; }
+    .entry-arrow svg { width: 16px; height: 16px; }
     .logo { width: 72px; height: 72px; }
   }
 </style>
@@ -926,6 +1058,21 @@
   </div>
   <div id="entryList" class="entry-list">
     <div class="loading">載入中⋯</div>
+  </div>
+</div>
+
+<!-- 刪除確認視窗 -->
+<div class="modal-overlay" id="deleteModal" onclick="if(event.target===this) closeDeleteModal()">
+  <div class="modal">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+    </div>
+    <div class="modal-title">確定要刪除嗎？</div>
+    <div class="modal-text">將永久刪除 <strong id="deleteTargetName">這位個案</strong> 的回饋紀錄，<br>此操作無法復原。</div>
+    <div class="modal-buttons">
+      <button class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">取 消</button>
+      <button class="modal-btn modal-btn-confirm" id="confirmDeleteBtn" onclick="confirmDelete()">確定刪除</button>
+    </div>
   </div>
 </div>
 
@@ -1199,7 +1346,9 @@
             <div class="entry-name">${escapeHtml(entry.name)}</div>
             <div class="entry-time">送出於 ${timeStr}</div>
           </div>
-          <div class="entry-arrow">⌄</div>
+          <div class="entry-arrow">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
         </div>
         <div class="entry-body">
           <div class="entry-qa">
@@ -1218,6 +1367,10 @@
           </div>
           <div class="entry-meta">
             <span>送出時間：${t.toLocaleString('zh-TW')}</span>
+            <button class="entry-delete-btn" onclick="askDelete('${entry.id}', '${escapeHtml(entry.name).replace(/'/g, "\\'")}')">
+              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+              <span>刪除</span>
+            </button>
           </div>
         </div>`;
       listEl.appendChild(div);
@@ -1226,6 +1379,54 @@
 
   function toggleEntry(headEl) {
     headEl.parentElement.classList.toggle('open');
+  }
+
+  // ===== 刪除流程 =====
+  let pendingDeleteId = null;
+
+  function askDelete(id, name) {
+    event.stopPropagation();  // 避免觸發卡片展開
+    pendingDeleteId = id;
+    document.getElementById('deleteTargetName').textContent = name || '這位個案';
+    document.getElementById('deleteModal').classList.add('show');
+  }
+
+  function closeDeleteModal() {
+    pendingDeleteId = null;
+    document.getElementById('deleteModal').classList.remove('show');
+  }
+
+  async function confirmDelete() {
+    if (!pendingDeleteId) return;
+    const btn = document.getElementById('confirmDeleteBtn');
+    btn.disabled = true;
+    btn.textContent = '刪除中⋯';
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'delete', id: pendingDeleteId }),
+        redirect: 'follow'
+      });
+      const result = await res.json();
+      if (result.ok) {
+        // 從本地列表移除這筆
+        allEntries = allEntries.filter(e => e.id !== pendingDeleteId);
+        document.getElementById('totalCount').textContent = allEntries.length;
+        applySearch();
+        closeDeleteModal();
+        showToast('已刪除');
+      } else {
+        showToast('刪除失敗：' + (result.error || '未知錯誤'));
+      }
+    } catch (e) {
+      console.error(e);
+      showToast('刪除失敗，請檢查網路');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '確定刪除';
+    }
   }
 
   // ===== 搜尋功能 =====
