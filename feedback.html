@@ -636,20 +636,26 @@
     flex-shrink: 0;
     width: 32px;
     height: 32px;
-    border-radius: 50%;
-    background: var(--bg-warm);
-    color: var(--orange);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
     transition: transform 0.25s ease;
-    font-weight: 700;
+  }
+  .entry-arrow svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--ink-muted);
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.2s;
   }
   .entry.open .entry-arrow {
     transform: rotate(180deg);
-    background: var(--orange);
-    color: #fff;
+  }
+  .entry.open .entry-arrow svg {
+    stroke: var(--orange);
   }
   .entry-body {
     display: none;
@@ -712,15 +718,221 @@
   }
   .entry-meta {
     margin-top: 16px;
-    padding-top: 14px;
+    padding-top: 16px;
     border-top: 1px solid var(--line-soft);
+  }
+  .entry-meta-time {
     font-size: 13px;
     color: var(--ink-muted);
+    margin-bottom: 14px;
+  }
+  .entry-buttons {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
     gap: 8px;
+    flex-wrap: wrap;
+  }
+  .entry-dl-btn {
+    flex: 1;
+    min-width: 110px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    color: var(--ink);
+    padding: 11px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .entry-dl-btn:active {
+    border-color: var(--orange);
+    color: var(--orange-dark);
+    background: var(--bg-warm);
+    transform: scale(0.98);
+  }
+  .entry-dl-btn svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+  }
+  .entry-delete-btn {
+    background: transparent;
+    border: 1.5px solid #e8c4b8;
+    color: #b8543d;
+    padding: 11px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .entry-delete-btn:active {
+    background: #fdeae3;
+    border-color: #b8543d;
+    transform: scale(0.97);
+  }
+  .entry-delete-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+  }
+  /* ===== 確認刪除視窗 ===== */
+  .export-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .export-opt-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 11px;
+    padding: 14px 16px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .export-opt-btn:active {
+    border-color: var(--orange);
+    background: var(--bg-warm);
+    transform: scale(0.99);
+  }
+  .export-opt-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--orange);
+    flex-shrink: 0;
+  }
+  .export-opt-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .export-opt-text strong {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .export-opt-text span {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(42,32,24,0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 20px;
+    animation: fadeIn 0.2s ease-out;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 360px;
+    width: 100%;
+    padding: 28px 24px 20px;
+    box-shadow: 0 20px 60px rgba(42,32,24,0.3);
+    animation: modalPop 0.25s ease-out;
+  }
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.92) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 16px;
+    background: #fdeae3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-icon svg {
+    width: 26px;
+    height: 26px;
+    stroke: #b8543d;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .modal-text {
+    font-size: 15px;
+    color: var(--ink-soft);
+    text-align: center;
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+  .modal-text strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .modal-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .modal-btn {
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1.5px solid transparent;
+  }
+  .modal-btn-cancel {
+    background: #f5f0e6;
+    color: var(--ink-soft);
+    border-color: #f5f0e6;
+  }
+  .modal-btn-cancel:active {
+    background: #ebe3d2;
+    transform: scale(0.98);
+  }
+  .modal-btn-confirm {
+    background: #c24f15;
+    color: #fff;
+    border-color: #c24f15;
+  }
+  .modal-btn-confirm:active {
+    background: #a8430f;
+    transform: scale(0.98);
   }
   .empty-state {
     text-align: center;
@@ -788,10 +1000,14 @@
     .entry-head { padding: 16px; min-height: 56px; }
     .entry-body { padding: 16px; }
     .entry-name { font-size: 17px; }
-    .entry-arrow { width: 28px; height: 28px; font-size: 16px; }
+    .entry-arrow { width: 28px; height: 28px; }
+    .entry-arrow svg { width: 16px; height: 16px; }
     .logo { width: 72px; height: 72px; }
   }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
 
@@ -918,14 +1134,55 @@
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/></svg>
         <span>重新整理</span>
       </button>
-      <button class="admin-action-btn" onclick="exportAll()">
+      <button class="admin-action-btn" onclick="openExportModal()">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span>匯出資料</span>
+        <span>全部匯出</span>
       </button>
     </div>
   </div>
   <div id="entryList" class="entry-list">
     <div class="loading">載入中⋯</div>
+  </div>
+</div>
+
+<!-- 全部匯出視窗 -->
+<div class="modal-overlay" id="exportModal" onclick="if(event.target===this) closeExportModal()">
+  <div class="modal">
+    <div class="modal-icon" style="background:var(--bg-warm);">
+      <svg viewBox="0 0 24 24" style="stroke:var(--orange-dark);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </div>
+    <div class="modal-title">全部匯出</div>
+    <div class="modal-text">將目前 <strong id="exportCount">0</strong> 份回饋打包下載，<br>每位個案產生一份檔案。</div>
+    <div class="export-options">
+      <button class="export-opt-btn" onclick="exportAllZip('word')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <div class="export-opt-text"><strong>Word 整包（ZIP）</strong><span>每人一份 .docx，可再編輯</span></div>
+      </button>
+      <button class="export-opt-btn" onclick="exportAllZip('pdf')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <div class="export-opt-text"><strong>PDF 整包（ZIP）</strong><span>每人一份 .pdf，適合歸檔</span></div>
+      </button>
+      <button class="export-opt-btn" onclick="exportAllText()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+        <div class="export-opt-text"><strong>文字備份（單一檔）</strong><span>所有人合併成一個 .txt</span></div>
+      </button>
+    </div>
+    <button class="modal-btn modal-btn-cancel" style="width:100%;margin-top:6px;" onclick="closeExportModal()">取 消</button>
+  </div>
+</div>
+
+<!-- 刪除確認視窗 -->
+<div class="modal-overlay" id="deleteModal" onclick="if(event.target===this) closeDeleteModal()">
+  <div class="modal">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+    </div>
+    <div class="modal-title">確定要刪除嗎？</div>
+    <div class="modal-text">將永久刪除 <strong id="deleteTargetName">這位個案</strong> 的回饋紀錄，<br>此操作無法復原。</div>
+    <div class="modal-buttons">
+      <button class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">取 消</button>
+      <button class="modal-btn modal-btn-confirm" id="confirmDeleteBtn" onclick="confirmDelete()">確定刪除</button>
+    </div>
   </div>
 </div>
 
@@ -1199,7 +1456,9 @@
             <div class="entry-name">${escapeHtml(entry.name)}</div>
             <div class="entry-time">送出於 ${timeStr}</div>
           </div>
-          <div class="entry-arrow">⌄</div>
+          <div class="entry-arrow">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
         </div>
         <div class="entry-body">
           <div class="entry-qa">
@@ -1217,7 +1476,21 @@
             <div class="entry-a">${escapeHtml(entry.q2)}</div>
           </div>
           <div class="entry-meta">
-            <span>送出時間：${t.toLocaleString('zh-TW')}</span>
+            <div class="entry-meta-time">送出時間：${t.toLocaleString('zh-TW')}</div>
+            <div class="entry-buttons">
+              <button class="entry-dl-btn" onclick="downloadWord('${entry.id}')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>Word</span>
+              </button>
+              <button class="entry-dl-btn" onclick="downloadPDF('${entry.id}')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>PDF</span>
+              </button>
+              <button class="entry-delete-btn" onclick="askDelete('${entry.id}', '${escapeHtml(entry.name).replace(/'/g, "\\'")}')">
+                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                <span>刪除</span>
+              </button>
+            </div>
           </div>
         </div>`;
       listEl.appendChild(div);
@@ -1226,6 +1499,54 @@
 
   function toggleEntry(headEl) {
     headEl.parentElement.classList.toggle('open');
+  }
+
+  // ===== 刪除流程 =====
+  let pendingDeleteId = null;
+
+  function askDelete(id, name) {
+    event.stopPropagation();  // 避免觸發卡片展開
+    pendingDeleteId = id;
+    document.getElementById('deleteTargetName').textContent = name || '這位個案';
+    document.getElementById('deleteModal').classList.add('show');
+  }
+
+  function closeDeleteModal() {
+    pendingDeleteId = null;
+    document.getElementById('deleteModal').classList.remove('show');
+  }
+
+  async function confirmDelete() {
+    if (!pendingDeleteId) return;
+    const btn = document.getElementById('confirmDeleteBtn');
+    btn.disabled = true;
+    btn.textContent = '刪除中⋯';
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'delete', id: pendingDeleteId }),
+        redirect: 'follow'
+      });
+      const result = await res.json();
+      if (result.ok) {
+        // 從本地列表移除這筆
+        allEntries = allEntries.filter(e => e.id !== pendingDeleteId);
+        document.getElementById('totalCount').textContent = allEntries.length;
+        applySearch();
+        closeDeleteModal();
+        showToast('已刪除');
+      } else {
+        showToast('刪除失敗：' + (result.error || '未知錯誤'));
+      }
+    } catch (e) {
+      console.error(e);
+      showToast('刪除失敗，請檢查網路');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '確定刪除';
+    }
   }
 
   // ===== 搜尋功能 =====
@@ -1266,36 +1587,220 @@
     showToast('已重新整理');
   }
 
-  async function exportAll() {
+  // ====================================================
+  // ===== 匯出系統（Word / PDF / 文字） =====
+  // ====================================================
+
+  const Q1_TITLE = '今天你們一起做了什麼事，讓你覺得很棒？';
+  const Q2_TITLE = '今天你看見孩子哪一個反應或表現，是你以前沒注意到的？';
+  const ORG_NAME = '社團法人榮欣社會福利服務促進協會';
+  const ACTIVITY_NAME = '六福村親子日';
+  const ACTIVITY_DATE = '中華民國 115 年 7 月 18 日';
+
+  function findEntry(id) {
+    return allEntries.find(e => e.id === id);
+  }
+
+  function fmtDate(iso) {
+    const t = new Date(iso);
+    return `${t.getFullYear()} 年 ${t.getMonth()+1} 月 ${t.getDate()} 日 ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}`;
+  }
+
+  function safeFileName(name) {
+    return String(name || '個案').replace(/[\\/:*?"<>|]/g, '_').slice(0, 30);
+  }
+
+  // ===== 全部匯出視窗 =====
+  function openExportModal() {
+    if (allEntries.length === 0) { showToast('目前沒有可匯出的紀錄'); return; }
+    document.getElementById('exportCount').textContent = allEntries.length;
+    document.getElementById('exportModal').classList.add('show');
+  }
+  function closeExportModal() {
+    document.getElementById('exportModal').classList.remove('show');
+  }
+
+  // ===== 產生單筆 Word 文件（回傳 Blob） =====
+  async function buildWordBlob(entry) {
+    const { Document, Packer, Paragraph, TextRun, AlignmentType, BorderStyle } = docx;
+
+    const doc = new Document({
+      styles: {
+        default: {
+          document: { run: { font: '標楷體', size: 24 } }
+        }
+      },
+      sections: [{
+        properties: { page: { margin: { top: 1134, bottom: 1134, left: 1134, right: 1134 } } },
+        children: [
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ text: ORG_NAME, bold: true, size: 28 })]
+          }),
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 120 },
+            children: [new TextRun({ text: `${ACTIVITY_NAME}　活動回饋紀錄`, size: 26, bold: true })]
+          }),
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 240 },
+            border: { bottom: { color: 'E3641F', space: 4, style: BorderStyle.SINGLE, size: 12 } },
+            children: [new TextRun({ text: ACTIVITY_DATE, size: 22, color: '888888' })]
+          }),
+          new Paragraph({
+            spacing: { after: 120 },
+            children: [
+              new TextRun({ text: '參加者姓名：', bold: true, size: 24 }),
+              new TextRun({ text: entry.name || '', size: 24 })
+            ]
+          }),
+          new Paragraph({
+            spacing: { after: 240 },
+            children: [
+              new TextRun({ text: '填寫時間：', bold: true, size: 24 }),
+              new TextRun({ text: fmtDate(entry.submittedAt), size: 24 })
+            ]
+          }),
+          new Paragraph({
+            spacing: { before: 120, after: 80 },
+            children: [new TextRun({ text: `一、${Q1_TITLE}`, bold: true, size: 24 })]
+          }),
+          new Paragraph({
+            spacing: { after: 240 },
+            indent: { left: 360 },
+            children: [new TextRun({ text: entry.q1 || '', size: 24 })]
+          }),
+          new Paragraph({
+            spacing: { before: 120, after: 80 },
+            children: [new TextRun({ text: `二、${Q2_TITLE}`, bold: true, size: 24 })]
+          }),
+          new Paragraph({
+            spacing: { after: 240 },
+            indent: { left: 360 },
+            children: [new TextRun({ text: entry.q2 || '', size: 24 })]
+          }),
+        ]
+      }]
+    });
+
+    return await Packer.toBlob(doc);
+  }
+
+  // ===== 下載單筆 Word =====
+  async function downloadWord(id) {
+    const entry = findEntry(id);
+    if (!entry) { showToast('找不到資料'); return; }
+    showToast('正在產生 Word⋯');
     try {
-      const res = await fetch(APPS_SCRIPT_URL, { method: 'GET', redirect: 'follow' });
-      const result = await res.json();
-      if (!result.ok) { showToast('匯出失敗'); return; }
-      
-      const entries = (result.entries || []).filter(e => e.name);
-      entries.sort((a, b) => new Date(a.submittedAt) - new Date(b.submittedAt));
-
-      let text = `六福村親子日 · 回饋紀錄總覽\n匯出時間：${new Date().toLocaleString('zh-TW')}\n共 ${entries.length} 份\n\n${'='.repeat(60)}\n\n`;
-
-      entries.forEach((e, i) => {
-        text += `【${i+1}】${e.name}\n`;
-        text += `送出時間：${new Date(e.submittedAt).toLocaleString('zh-TW')}\n\n`;
-        text += `第一題：今天你們一起做了什麼事，讓你覺得很棒？（${countChars(e.q1)} 字）\n${e.q1}\n\n`;
-        text += `第二題：今天你看見孩子哪一個反應或表現，是你以前沒注意到的？（${countChars(e.q2)} 字）\n${e.q2}\n\n`;
-        text += `${'─'.repeat(60)}\n\n`;
-      });
-
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `六福村親子日_回饋紀錄_${new Date().toISOString().slice(0,10)}.txt`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast('已匯出');
+      const blob = await buildWordBlob(entry);
+      saveAs(blob, `${ACTIVITY_NAME}_${safeFileName(entry.name)}.docx`);
     } catch (e) {
-      showToast('匯出失敗');
+      console.error(e);
+      showToast('Word 產生失敗');
     }
+  }
+
+  // ===== 產生單筆 PDF 的 HTML（用瀏覽器列印，中文無亂碼） =====
+  function buildPrintHTML(entry) {
+    return `<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8">
+<title>${escapeHtml(entry.name)}_回饋紀錄</title>
+<style>
+  @page { margin: 2cm; }
+  body { font-family: "標楷體","DFKai-SB","BiauKai",serif; color:#000; line-height:1.9; padding:0; margin:0; }
+  .org { text-align:center; font-size:18px; font-weight:bold; margin-bottom:4px; }
+  .act { text-align:center; font-size:17px; font-weight:bold; margin-bottom:6px; }
+  .date { text-align:center; font-size:13px; color:#666; padding-bottom:10px; border-bottom:2px solid #e3641f; margin-bottom:20px; }
+  .field { margin-bottom:10px; font-size:15px; }
+  .field b { display:inline-block; min-width:90px; }
+  .q-title { font-weight:bold; font-size:15px; margin:18px 0 8px; }
+  .q-answer { font-size:15px; padding-left:20px; margin-bottom:18px; white-space:pre-wrap; }
+</style></head><body>
+  <div class="org">${ORG_NAME}</div>
+  <div class="act">${ACTIVITY_NAME}　活動回饋紀錄</div>
+  <div class="date">${ACTIVITY_DATE}</div>
+  <div class="field"><b>參加者姓名：</b>${escapeHtml(entry.name)}</div>
+  <div class="field"><b>填寫時間：</b>${fmtDate(entry.submittedAt)}</div>
+  <div class="q-title">一、${Q1_TITLE}</div>
+  <div class="q-answer">${escapeHtml(entry.q1)}</div>
+  <div class="q-title">二、${Q2_TITLE}</div>
+  <div class="q-answer">${escapeHtml(entry.q2)}</div>
+</body></html>`;
+  }
+
+  // ===== 下載單筆 PDF（開新視窗列印） =====
+  function downloadPDF(id) {
+    const entry = findEntry(id);
+    if (!entry) { showToast('找不到資料'); return; }
+    const win = window.open('', '_blank');
+    if (!win) { showToast('請允許開啟新視窗以列印 PDF'); return; }
+    win.document.write(buildPrintHTML(entry));
+    win.document.close();
+    setTimeout(() => {
+      win.focus();
+      win.print();
+    }, 400);
+  }
+
+  // ===== 全部匯出成 ZIP（Word 或 PDF） =====
+  async function exportAllZip(type) {
+    if (allEntries.length === 0) { showToast('沒有可匯出的資料'); return; }
+    closeExportModal();
+
+    if (type === 'pdf') {
+      // PDF 用列印方式無法直接打包成 ZIP，改為逐一開啟列印
+      showToast('PDF 將逐一開啟，請每份各自存檔');
+      for (let i = 0; i < allEntries.length; i++) {
+        setTimeout(() => downloadPDF(allEntries[i].id), i * 1200);
+      }
+      return;
+    }
+
+    // Word：打包成 ZIP
+    showToast('正在打包 Word，請稍候⋯');
+    try {
+      const zip = new JSZip();
+      const usedNames = {};
+      for (const entry of allEntries) {
+        const blob = await buildWordBlob(entry);
+        let base = safeFileName(entry.name);
+        // 避免同名覆蓋
+        if (usedNames[base]) {
+          usedNames[base]++;
+          base = `${base}_${usedNames[base]}`;
+        } else {
+          usedNames[base] = 1;
+        }
+        zip.file(`${base}.docx`, blob);
+      }
+      const content = await zip.generateAsync({ type: 'blob' });
+      saveAs(content, `${ACTIVITY_NAME}_回饋紀錄_Word_${new Date().toISOString().slice(0,10)}.zip`);
+      showToast(`已打包 ${allEntries.length} 份 Word`);
+    } catch (e) {
+      console.error(e);
+      showToast('打包失敗：' + e.message);
+    }
+  }
+
+  // ===== 全部匯出成單一文字檔 =====
+  function exportAllText() {
+    if (allEntries.length === 0) { showToast('沒有可匯出的資料'); return; }
+    closeExportModal();
+
+    const entries = [...allEntries].sort((a, b) => new Date(a.submittedAt) - new Date(b.submittedAt));
+    let text = `${ORG_NAME}\n${ACTIVITY_NAME} · 回饋紀錄總覽\n匯出時間：${new Date().toLocaleString('zh-TW')}\n共 ${entries.length} 份\n\n${'='.repeat(60)}\n\n`;
+
+    entries.forEach((e, i) => {
+      text += `【${i+1}】${e.name}\n`;
+      text += `填寫時間：${new Date(e.submittedAt).toLocaleString('zh-TW')}\n\n`;
+      text += `一、${Q1_TITLE}（${countChars(e.q1)} 字）\n${e.q1}\n\n`;
+      text += `二、${Q2_TITLE}（${countChars(e.q2)} 字）\n${e.q2}\n\n`;
+      text += `${'─'.repeat(60)}\n\n`;
+    });
+
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    saveAs(blob, `${ACTIVITY_NAME}_回饋紀錄_${new Date().toISOString().slice(0,10)}.txt`);
+    showToast('已匯出文字檔');
   }
 
   function escapeHtml(s) {
